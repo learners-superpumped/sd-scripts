@@ -1,0 +1,10 @@
+[
+    {
+        "prompt": "hoge person",
+        "negative_prompt": "((distorted eye)), NSFW, cartoon, 3d, tooth, teeth, (disfigured), (bad art), (deformed), (poorly drawn), (extra limbs), asymmetric eyes, (close up), strange colours, blurry, boring, sketch, lackluster, face portrait, self-portrait, signature, letters, watermark, grayscale, low quality, worst quality, distorted hands, mutated hands, mutated finger, crooked nose, uneven teeth, face tattoo, gloomy, depressed, dots, dirty, asymmetric lips, grains, fused hands, fused heads, fused characters. foreground characters, airbrushed, glossy, photoshop",
+        "sample_steps": 50,
+        "width": 512,
+        "height": 512,
+        "scale": 7.0
+    }
+]
