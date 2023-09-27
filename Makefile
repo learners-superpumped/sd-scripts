@@ -19,3 +19,5 @@ dataset:
 	unzip kr.zip -d dataset/kr
 	wget https://storage.googleapis.com/stable-diffusion-server-dev/dataset/us.zip
 	unzip us.zip -d dataset/us
+	wget https://storage.googleapis.com/stable-diffusion-server-dev/dataset/small-kr.zip
+	unzip small-kr.zip -d dataset/small-kr
