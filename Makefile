@@ -21,3 +21,5 @@ dataset:
 	unzip us.zip -d dataset/us
 	wget https://storage.googleapis.com/stable-diffusion-server-dev/dataset/small-kr.zip
 	unzip small-kr.zip -d dataset/small-kr
+	wget https://storage.googleapis.com/peekaboo-studio/userinputzip/b6ntuv40b6result.zip
+	unzip b6ntuv40b6result.zip -d dataset/augmented-kr 
