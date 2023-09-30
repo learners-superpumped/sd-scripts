@@ -37,7 +37,9 @@ def parse_args():
     parser.add_argument("--crop_top", type=int, default=0)
     parser.add_argument("--crop_left", type=int, default=0)
     parser.add_argument("--locon_model", type=str, default="output/locon-kr-leosam-768-32-2/test.safetensors")
-    parser.add_argument("--lora_strength", type=int, default=1)
+    parser.add_argument("--lora_strength", type=float, default=1)
+    parser.add_argument("--prompt", type=str, default="leogirl, hoge girl, realistic Documentary photography, detailed face cleavage, realistic, photorealistic")
+    parser.add_argument("--negative_prompt", type=str, default= "(worst quality, low quality, cgi, bad eye, worst eye, illustration, cartoon), deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, open mouth")
     parser.add_argument("--algo", type=str, default="locon")
 
     return parser.parse_args()
@@ -312,9 +314,9 @@ if __name__ == "__main__":
         text_encoder2,
         unet,
         vae,
-        "leogirl, hoge girl, realistic Documentary photography",
+        args.prompt,
         "",
-        "(worst quality, low quality, cgi, bad eye, worst eye, illustration, cartoon), deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, open mouth",
+        args.negative_prompt,
         args.seed
     )
     print("Done!")
