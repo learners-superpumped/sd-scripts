@@ -9,5 +9,13 @@ batch_size = 4
 keep_tokens = 2
 
   [[datasets.subsets]]
-  image_dir = 'datasets'
+  image_dir = 'dataset/augmented_face_kr'
   class_tokens = 'hoge person'
+  num_repeats = 16
+
+  [[datasets.subsets]]
+  image_dir = 'dataset/k-faces-large-flat/k-faces-small-flat'
+  class_tokens = 'person'
+  is_reg = true
+  keep_tokens = 1
+  num_repeats = 1
