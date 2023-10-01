@@ -35,7 +35,7 @@ def parse_args():
     parser.add_argument("--concept_image", type=str, default="image/2.jpg")
     parser.add_argument("--locon_model", type=str, default="output/locon-cropped_kr-leosam-512-32-3e-4/test.safetensors")
     parser.add_argument("--strength", type=float, default=0.5)
-    parser.add_argument("--prompt", type=str, default="leogirl, hoge girl, realistic Documentary photography, detailed face cleavage, realistic, photorealistic")
+    parser.add_argument("--prompt", type=str, default="leogirl, hoge person, realistic Documentary photography, detailed face cleavage, realistic, photorealistic")
     parser.add_argument("--negative_prompt", type=str, default= "(worst quality, low quality, cgi, bad eye, worst eye, illustration, cartoon), deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, open mouth")
     parser.add_argument("--algo", type=str, default="locon")
     return parser.parse_args()
