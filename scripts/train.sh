@@ -1,9 +1,9 @@
 accelerate launch --num_cpu_threads_per_process 1 sdxl_train_network.py \
     --pretrained_model_name_or_path=models/leosam.safetensors \
     --dataset_config=_typos.toml \
-    --output_dir=output/locon-cropped_kr-leosam-512-32-3e-4-face \
+    --output_dir=output/locon-augmented-kr-leosam-512-32-3e-4-reg-2000-2-1\
     --output_name=test \
-    --max_train_steps=1000 \
+    --max_train_steps=2000 \
     --save_model_as=safetensors \
     --prior_loss_weight=1.0 \
     --learning_rate=3e-4 \
@@ -14,8 +14,33 @@ accelerate launch --num_cpu_threads_per_process 1 sdxl_train_network.py \
     --cache_latents \
     --text_encoder_lr=3e-4 \
     --gradient_checkpointing \
-    --save_every_n_epochs=50 \
-    --sample_every_n_epochs=10 \
+    --save_every_n_epochs=1 \
+    --sample_every_n_epochs=1 \
+    --sample_prompts="sample_prompt.json"\
+    --no_half_vae \
+    --network_dim=32 \
+    --network_args "conv_dim=32" "conv_alpha=1.0" "algo=locon"\
+    --network_module=lycoris.kohya
+
+
+accelerate launch --num_cpu_threads_per_process 1 sdxl_train_network.py \
+    --pretrained_model_name_or_path=models/leosam.safetensors \
+    --dataset_config=_typos.toml \
+    --output_dir=output/locon-augmented-kr-leosam-512-32-3e-4-reg-3000-2-1\
+    --output_name=test \
+    --max_train_steps=3000 \
+    --save_model_as=safetensors \
+    --prior_loss_weight=1.0 \
+    --learning_rate=3e-4 \
+    --lr_scheduler="cosine" \
+    --optimizer_type="AdamW8bit" \
+    --xformers \
+    --mixed_precision="fp16" \
+    --cache_latents \
+    --text_encoder_lr=3e-4 \
+    --gradient_checkpointing \
+    --save_every_n_epochs=1 \
+    --sample_every_n_epochs=1 \
     --sample_prompts="sample_prompt.json"\
     --no_half_vae \
     --network_dim=32 \
