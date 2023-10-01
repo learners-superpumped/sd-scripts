@@ -6,3 +6,12 @@ venv
 build
 .vscode
 wandb
+*.zip
+models/
+k-faces-large-flat
+output/
+wget-log
+b6ntuv40b6result
+.cog/
+_dataset_config.toml
+dataset/

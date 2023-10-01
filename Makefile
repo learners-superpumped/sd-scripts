@@ -6,6 +6,7 @@ sdxl-1.0:
 leosam:
 	mkdir -p models
 	cd models && wget https://civitai.com/api/download/models/150851
+	mv models/150851 models/leosam.safetensors
 
 setup:
 	pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --index-url https://download.pytorch.org/whl/cu118
@@ -28,3 +29,10 @@ dataset:
 regular-dataset:
 	wget https://storage.googleapis.com/snow_image/kor_latent/k-faces-large-flat.zip
 	unzip k-faces-large-flat.zip -d dataset/k-faces-large-flat
+
+
+serve:
+	cog run -p 5000 python -m cog.server.http
+
+push:
+	sudo cog push r8.im/learners-superpumped/sdxl_locon
