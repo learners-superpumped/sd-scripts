@@ -1,5 +1,4 @@
 import os
-import shutil
 from typing import Iterator
 from time import time
 
@@ -10,14 +9,13 @@ from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipelin
 from diffusers.utils import load_image
 from diffusers import EulerDiscreteScheduler
 
-import settings
 
 
 class Predictor(BasePredictor):
     def setup(self):
         """Load the model into memory to make running multiple predictions efficient"""
         self.device = "cuda"
-        checkpoint_path = settings.BASE_MODEL_PATH 
+        checkpoint_path = "models/leosam.safetensors" 
         self.img2img_pipe = StableDiffusionXLImg2ImgPipeline.from_single_file(
             checkpoint_path,
             local_file_only=True,
@@ -31,8 +29,6 @@ class Predictor(BasePredictor):
             tokenizer_2=self.img2img_pipe.tokenizer_2,
             unet=self.img2img_pipe.unet,
             scheduler=self.img2img_pipe.scheduler,
-            safety_checker=self.img2img_pipe.safety_checker,
-            feature_extractor=self.img2img_pipe.feature_extractor,
         ).to(self.device, torch.float16)
 
         self.weights_download_cache = WeightsDownloadCache(2**30)
