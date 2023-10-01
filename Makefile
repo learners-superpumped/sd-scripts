@@ -23,3 +23,8 @@ dataset:
 	unzip small-kr.zip -d dataset/small-kr
 	wget https://storage.googleapis.com/peekaboo-studio/userinputzip/b6ntuv40b6result.zip
 	unzip b6ntuv40b6result.zip -d dataset/augmented-kr 
+
+
+regular-dataset:
+	wget https://storage.googleapis.com/snow_image/kor_latent/k-faces-large-flat.zip
+	unzip k-faces-large-flat.zip -d dataset/k-faces-large-flat
