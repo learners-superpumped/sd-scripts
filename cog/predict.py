@@ -95,21 +95,6 @@ class Predictor(BasePredictor):
             description="Prompt strength when using init image. 1.0 corresponds to full destruction of information in init image",
             default=0.5,
         ),
-        scheduler: str = Input(
-            default="KarrasDPM",
-            choices=[
-                "DDIM",
-                "DPMSolverMultistep",
-                "HeunDiscrete",
-                "K_EULER_ANCESTRAL",
-                "K_EULER",
-                "KLMS",
-                "PNDM",
-                "UniPCMultistep",
-                "KarrasDPM",
-            ],
-            description="Choose a scheduler.",
-        ),
         disable_safety_check: bool = Input(
             description="Disable safety check. Use at your own risk!", default=False
         ),
