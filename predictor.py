@@ -83,17 +83,17 @@ def download_dataset(instance_data, class_data):
 
 
 
-def make_dataset_config_file(res=512, bs=4, kt=2, image_dir=".", class_token="hoge person", reg_dir=None, reg_token="person"):
+def make_dataset_config_file(res=512, bs=4, kt=2, image_dir=".", class_token="hoge person", reg_dir=None, reg_token="person", num_repeat=1):
     filename = "_dataset_config.toml"
     f = open(filename, "w")
     f.write(
         f'[general]\nshuffle_caption = true\ncaption_extension = \'.txt\'\nkeep_tokens = 1\n\n'
     )
     f.write(
-        f'[[datasets]]\nresolution = {res}\nbatch_size = {bs}\nkeep_tokens = {kt}\n'
+        f'[[datasets]]\nresolution = {res}\nbatch_size = {bs}\nkeep_tokens = {kt}\n\n'
     )
     f.write(
-        f'\t[[datasets.subsets]]\n\timage_dir = \'{image_dir}\'\n\tclass_tokens = \'{class_token}\'\n\n'
+        f'\t[[datasets.subsets]]\n\timage_dir = \'{image_dir}\'\n\tclass_tokens = \'{class_token}\'\n\tnum_repeats = {num_repeat}\n\n'
     )
     if reg_dir is not None:
         f.write(
@@ -184,6 +184,10 @@ class Predictor(BasePredictor):
             description="optimizer will be used",
             default="AdamW8bit"
         ),
+        num_repeat: int = Input(
+            description="repeat number of instance data",
+            default=1
+        ),
         extra: str = Input(
             description="extra args: for your need, for example, optimizer_args, ...",
             default="AdamW8bit"
@@ -228,7 +232,7 @@ class Predictor(BasePredictor):
         
 
 
-        dataset_config = make_dataset_config_file(res=resolution, bs=train_batch_size, image_dir=instance_data, reg_dir=class_data, class_token=class_token, reg_token=reg_token)
+        dataset_config = make_dataset_config_file(res=resolution, bs=train_batch_size, image_dir=instance_data, reg_dir=class_data, class_token=class_token, reg_token=reg_token, num_repeat=num_repeat)
 
 
         command = f'''accelerate launch --num_cpu_threads_per_process 1 sdxl_train_network.py \\
