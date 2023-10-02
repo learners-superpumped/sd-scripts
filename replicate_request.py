@@ -22,6 +22,7 @@ def training_locon(
     max_train_steps: int,
     train_batch_size: int,
     output_dir: str,
+    extra: str,
 ):
     url = 'https://api.replicate.com/v1/predictions'
     data = {
@@ -39,7 +40,8 @@ def training_locon(
             "max_train_steps": max_train_steps,
             "train_batch_size": train_batch_size,
             "lora_dim": lora_dim,
-            "output_dir": output_dir
+            "output_dir": output_dir,
+            "extra": extra,
         }
     }
 

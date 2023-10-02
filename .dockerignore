@@ -1,6 +1,6 @@
 __pycache__
 inference_results
-models/
+
 dataset/
 output
 .zip

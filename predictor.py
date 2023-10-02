@@ -171,6 +171,22 @@ class Predictor(BasePredictor):
         lora_dim: int = Input(
             description="dim of lora, locon",
             default=32
+        ),
+        class_token: str = Input(
+            description="learnable token",
+            default="hoge girl"
+        ),
+        reg_token: str = Input(
+            description="regularization token",
+            default="girl"
+        ),
+        optimizer: str = Input(
+            description="optimizer will be used",
+            default="AdamW8bit"
+        ),
+        extra: str = Input(
+            description="extra args: for your need, for example, optimizer_args, ...",
+            default="AdamW8bit"
         )
     ) -> TrainingOutput:
         start = time.time()
@@ -194,9 +210,9 @@ class Predictor(BasePredictor):
         # prepare model, dataset, config file.
         instance_data, class_data = download_dataset(instance_data, class_data)
         
-        if str(ckpt_base) == "https://civitai.com/api/download/models/150851":
-            os.system("make leosam")
-            ckpt_base = "models/leosam.safetensors"
+        # if str(ckpt_base) == "https://civitai.com/api/download/models/150851":
+        #     os.system("make leosam")
+        #     ckpt_base = "models/leosam.safetensors"
         # Another base model : later!
         # elif str(pretrained).startswith('http'):
         #     pretrained_fname = str(pretrained).split("/")[-1]
@@ -212,7 +228,7 @@ class Predictor(BasePredictor):
         
 
 
-        dataset_config = make_dataset_config_file(res=resolution, bs=train_batch_size, image_dir=instance_data, reg_dir=class_data)
+        dataset_config = make_dataset_config_file(res=resolution, bs=train_batch_size, image_dir=instance_data, reg_dir=class_data, class_token=class_token, reg_token=reg_token)
 
 
         command = f'''accelerate launch --num_cpu_threads_per_process 1 sdxl_train_network.py \\
@@ -225,10 +241,9 @@ class Predictor(BasePredictor):
             --prior_loss_weight=1.0 \\
             --learning_rate={unet_lr} \\
             --lr_scheduler={lr_scheduler} \\
-            --optimizer_type=\"AdamW8bit\" \\
+            --optimizer_type=\"{optimizer}\" \\
             --xformers \\
             --mixed_precision=\"fp16\" \\
-            --cache_latents \\
             --text_encoder_lr={text_lr} \\
             --gradient_checkpointing \\
             --save_every_n_epochs=100 \\
@@ -238,6 +253,9 @@ class Predictor(BasePredictor):
             --network_dim={lora_dim} \\
             --network_args \"conv_dim={lora_dim}\" \"conv_alpha=1.0\" \"algo=locon\" \\
             --network_module=lycoris.kohya \\
+            --cache_latents \\
+            --cache_latents_to_disk \\
+            {extra}
             
         '''
         # ff = open("./train.sh", "w")
