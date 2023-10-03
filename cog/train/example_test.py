@@ -3,7 +3,7 @@ import json
 import time
 from replicate_request import training_locon
 
-# url = 'http://localhost:5000/predictions'
+url = 'http://localhost:5000/predictions'
 
 # start = time.time()
 # response = requests.post(url, json={
