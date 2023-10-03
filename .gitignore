@@ -6,3 +6,8 @@ venv
 build
 .vscode
 wandb
+output/
+dataset/
+inference_results
+image/
+models/
