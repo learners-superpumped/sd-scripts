@@ -1,0 +1,23 @@
+accelerate launch --num_cpu_threads_per_process 1 sdxl_train_network.py \
+    --pretrained_model_name_or_path=models/leosam.safetensors \
+    --dataset_config=_typos.toml \
+    --output_dir=output/locon-kr-leosam-512-32-1000-1e-41e-5 \
+    --output_name=test \
+    --max_train_steps=1000 \
+    --save_model_as=safetensors \
+    --prior_loss_weight=1.0 \
+    --learning_rate=1e-4 \
+    --lr_scheduler="cosine" \
+    --optimizer_type="AdamW8bit" \
+    --xformers \
+    --mixed_precision="fp16" \
+    --cache_latents \
+    --text_encoder_lr=1e-5 \
+    --gradient_checkpointing \
+    --save_every_n_epochs=100 \
+    --sample_every_n_epochs=100 \
+    --sample_prompts="sample_prompt.json"\
+    --no_half_vae \
+    --network_dim=32 \
+    --network_args "conv_dim=32" "conv_alpha=1.0" "algo=locon"\
+    --network_module=lycoris.kohya
