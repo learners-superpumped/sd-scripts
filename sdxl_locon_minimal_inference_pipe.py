@@ -23,6 +23,7 @@ from library import sdxl_train_util, sdxl_model_util
 from transformers import CLIPTokenizer
 import open_clip
 import argparse
+from diffusers.utils import load_image
 
 
 def parse_args():
@@ -46,27 +47,32 @@ def parse_args():
 
 
 # load SDXL pipeline
-
 if __name__ == "__main__":
     args = parse_args()
+    base_pipe = StableDiffusionXLPipeline.from_single_file(
+        args.ckpt_path,
+        local_file_only=True,
+        torch_dtype=torch.float16,
+    )
+    base_pipe.load_lora_weights(args.locon_model)
     if args.mode == "i2i":
-        pipe = StableDiffusionXLImg2ImgPipeline.from_single_file(
-            args.ckpt_path,
-            local_file_only=True,
-            torch_dtype=torch.float16,
+        pipe = StableDiffusionXLImg2ImgPipeline(
+            vae=base_pipe.vae,
+            unet=base_pipe.unet,
+            text_encoder=base_pipe.text_encoder,
+            text_encoder_2=base_pipe.text_encoder_2,
+            scheduler=base_pipe.scheduler,
+            tokenizer=base_pipe.tokenizer,
+            tokenizer_2=base_pipe.tokenizer_2,
         )
+
     elif args.mode == "t2i":
-        pipe = StableDiffusionXLPipeline.from_single_file(
-            args.ckpt_path,
-            local_file_only=True,
-            torch_dtype=torch.float16,
-        )
+        pipe = base_pipe
 
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)
 
     # dtype
-    pipe.load_lora_weights(args.locon_model)
     pipe.unet.to("cuda", torch.float16)
     pipe.vae.to("cuda", torch.float16)
     pipe.text_encoder.to("cuda", torch.float16)
@@ -84,7 +90,7 @@ if __name__ == "__main__":
         beta_schedule=SCHEDLER_SCHEDULE,
     )
 
-    concept_image = Image.open(args.concept_image).convert("RGB")
+    # concept_image = Image.open(args.concept_image).convert("RGB")
     # width, height = concept_image.size
     # ratio = height / width 
     # new_width = 1024
@@ -92,12 +98,25 @@ if __name__ == "__main__":
     # print("new width: ", new_width)
     # print("new height: ", new_height)
     # concept_image = concept_image.resize((new_width, new_height))
-    # concept_image = concept_image.resize((1024, 1024))
+    generator = torch.Generator("cuda").manual_seed(args.seed)
+
+    concept_image = load_image(args.concept_image)
+    width, height = concept_image.size
+    ratio = height / width 
+    new_width = 1024
+    new_height = int(new_width * ratio)
+    print("new width: ", new_width)
+    print("new height: ", new_height)
+    concept_image = concept_image.resize((new_width, new_height))
+    
+    print(np.array(concept_image))
     if args.mode == "i2i":
         images = pipe(
             image=concept_image,
             prompt=args.prompt,
+            prompt_2="", # dummy
             negative_prompt=args.negative_prompt,
+            negative_prompt_2="", # dummy
             guidance_scale=args.guidance_scale,
             # width=args.target_width,
             # height=args.target_height,
@@ -105,6 +124,7 @@ if __name__ == "__main__":
             num_inference_steps=args.num_inference_steps,
             # aesthetic_score=args.ae/sthetic_score,
             strength=args.strength,
+            generator=generator,
         ).images
     elif args.mode == "t2i":
         images = pipe(
