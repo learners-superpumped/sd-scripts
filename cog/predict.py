@@ -33,12 +33,12 @@ class Predictor(BasePredictor):
 
         self.weights_download_cache = WeightsDownloadCache(2**30)
 
-    def get_locon(self, pipe, url: str):
+    def get_locon(self, url: str):
         if 'replicate.delivery' in url:
             url = url.replace('replicate.delivery/pbxt', 'storage.googleapis.com/replicate-files')
 
         path = self.weights_download_cache.ensure(url)
-        return self.gpu_weights(pipe, path)
+        return path
 
     @torch.inference_mode()
     def predict(
@@ -55,7 +55,7 @@ class Predictor(BasePredictor):
         ),
         prompt: str = Input(
             description="Input prompt",
-            default="photo of cjw person",
+            default="leogirl, hoge person, realistic Documentary photography, detailed face cleavage, realistic, photorealistic",
         ),
         prompt_2: str = Input(
             description="Input prompt",
@@ -63,7 +63,7 @@ class Predictor(BasePredictor):
         ),
         negative_prompt: str = Input(
             description="Specify things to not see in the output",
-            default=None,
+            default="(worst quality, low quality, cgi, bad eye, worst eye, illustration, cartoon), deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, open mouth",
         ),
         negative_prompt_2: str = Input(
             description="Specify things to not see in the output",
@@ -96,7 +96,7 @@ class Predictor(BasePredictor):
             default=0.5,
         ),
         disable_safety_check: bool = Input(
-            description="Disable safety check. Use at your own risk!", default=False
+            description="Disable safety check. Use at your own risk!", default=True
         ),
         seed: int = Input(
             description="Random seed. Leave blank to randomize the seed", default=None
@@ -119,6 +119,7 @@ class Predictor(BasePredictor):
         if image:
             print("Using img2img pipeline")
             pipe = self.img2img_pipe
+            extra_kwargs = {}
         else:
             print("Using txt2img pipeline")
             pipe = self.txt2img_pipe
@@ -138,7 +139,8 @@ class Predictor(BasePredictor):
 
         pipe.scheduler = make_scheduler()
         locon_start = time()
-        self.get_locon(pipe, locon_url)
+        locon_path = self.get_locon(locon_url)
+        pipe.load_lora_weights(locon_path)
         print(f"LoCon loading time: {(time() - locon_start):.2f}")
 
         if disable_safety_check:
