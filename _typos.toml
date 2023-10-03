@@ -4,14 +4,14 @@ caption_extension = '.txt'
 keep_tokens = 1
 
 [[datasets]]
-resolution = 512
+resolution = 1024 
 batch_size = 4
 keep_tokens = 2
 
   [[datasets.subsets]]
-  image_dir = 'dataset/augmented_face_kr'
-  class_tokens = 'hoge person'
-  num_repeats = 16
+  image_dir = 'dataset/cropped_kr_1024'
+  class_tokens = '<hoge> person'
+  num_repeats = 95
 
   [[datasets.subsets]]
   image_dir = 'dataset/k-faces-large-flat/k-faces-small-flat'
