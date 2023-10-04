@@ -3,15 +3,16 @@ import json
 import time
 from replicate_request import training_locon
 
-url = 'http://localhost:5000/predictions'
+# url = 'http://localhost:5000/predictions'
 
 # start = time.time()
 # response = requests.post(url, json={
 #     "input":{
 #         "instance_data": "https://storage.googleapis.com/stable-diffusion-server-dev/dataset/sample1.zip", 
 #         "class_data": "https://storage.googleapis.com/stable-diffusion-server-dev/dataset/k-faces-small-flat.zip",
+#         "style_data":"https://storage.googleapis.com/stable-diffusion-server-dev/dataset/1024_inpaint_merged.zip",
 #         "model_id": "test_sdxl",
-#         "ckpt_base": "models/leosam.safetensors",
+#         "ckpt_base": "models/sd_xl_base_1.0.safetensors",
 #         "resolution":1024,
 #         "lr_scheduler": "cosine",
 #         "unet_lr": 4e-4,
@@ -24,7 +25,11 @@ url = 'http://localhost:5000/predictions'
 #         "optimizer":"Adafactor",
 #         "class_token":"<hoge> person",
 #         "reg_token":"person",
-#         "num_repeat":95,
+#         "sty_token":"<s1>",
+#         "num_repeat_ins":39,
+#         "num_repeat_sty":1,
+#         "network_module":"lycoris.kohya",
+#         "network_algo":"locon",
 #         "extra": "--optimizer_args scale_parameter=False relative_step=False warmup_init=False"
 #         #"lambda_arc": 0.1,
 # }})
@@ -36,11 +41,12 @@ url = 'https://replicate.com/learners-superpumped/user-test-arcface-loss' # ??
 start = time.time()
 response = training_locon(
     user_id="testuser",
-    version="ecda5fdf9e1cfff66e6988ca1991ca1630c38c7208d241415d6d9360f7cf141a",
-    instance_data= "https://storage.googleapis.com/stable-diffusion-server-dev/dataset/augmented_sample1.zip", 
+    version="2c62cd47aa6c2200cc4f2898063081c8c212f334bbdec5e323abff5f3dad51f0",
+    instance_data= "https://storage.googleapis.com/stable-diffusion-server-dev/dataset/augmented_sample2.zip", 
+    style_data="https://storage.googleapis.com/stable-diffusion-server-dev/dataset/1024_inpaint_merged.zip",
     class_data= "https://storage.googleapis.com/stable-diffusion-server-dev/dataset/k-faces-small-flat.zip",
     model_id= "test_sdxl",
-    ckpt_base= "models/leosam.safetensors",
+    ckpt_base= "models/sd_xl_base_1.0.safetensors",
     resolution= 1024,
     lr_scheduler= "linear",
     unet_lr= 4e-4,
@@ -49,12 +55,18 @@ response = training_locon(
     min_snr_gamma= 1,
     max_train_steps= 2000,
     train_batch_size= 4,
-    output_dir= "output/locon-leosam-1024-8-4e-4-1e-5-reg-2000-2-1-aug",
+    output_dir= "output/locon-base-sample1-augmented-2000-1024-reg-concept",
     optimizer="Adafactor",
-    class_token="leogirl, <hoge> person",
-    reg_token="leogirl, person",
-    num_repeat=48,
-    extra="--optimizer_args scale_parameter=False relative_step=False warmup_init=False"
+    class_token="<hoge> person",
+    sty_token="<s1>",
+    reg_token="person",
+    num_repeat_ins=39,
+    num_repeat_sty=1,
+    network_module="lycoris.kohya",
+    network_algo="locon",
+    extra='''--optimizer_args scale_parameter=False relative_step=False warmup_init=False \\
+    
+        '''
 )
 print(response)
 print(time.time() - start)
