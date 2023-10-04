@@ -10,6 +10,7 @@ def training_locon(
     user_id: str, 
     version: str, 
     instance_data: str,
+    style_data: str,
     class_data: str,
     model_id: str,
     ckpt_base: str,
@@ -24,15 +25,20 @@ def training_locon(
     output_dir: str,
     optimizer: str,
     class_token: str,
+    sty_token: str,
     reg_token: str,
     extra: str,
-    num_repeat: int,
+    num_repeat_ins: int,
+    num_repeat_sty: int,
+    network_module: str,
+    network_algo: str,
 ):
     url = 'https://api.replicate.com/v1/predictions'
     data = {
         "version": version,
         "input":{
             "instance_data": instance_data,
+            "style_data": style_data,
             "class_data": class_data,
             "model_id": model_id,
             "ckpt_base": ckpt_base,
@@ -48,8 +54,12 @@ def training_locon(
             "extra": extra,
             "optimizer": optimizer,
             "class_token": class_token,
+            "sty_token": sty_token,
             "reg_token": reg_token,
-            "num_repeat": num_repeat,
+            "num_repeat_ins": num_repeat_ins,
+            "num_repeat_sty": num_repeat_sty,
+            "network_module": network_module,
+            "network_algo": network_algo
         }
     }
 
