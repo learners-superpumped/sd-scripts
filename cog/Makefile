@@ -21,6 +21,8 @@ build:
 push:
 	sudo cog push r8.im/learners-superpumped/user-test-arcface-loss
 
-regular-dataset:
-	wget https://storage.googleapis.com/snow_image/kor_latent/k-faces-large-flat.zip
-	unzip k-faces-large-flat.zip -d dataset/k-faces-large-flat
+magictouch:
+	cd models && wget https://storage.cloud.google.com/stable-diffusion-model-repository-asia/v1/production/magic_touch.tflite
+
+selfie_multiclass:
+	cd models && wget https://storage.cloud.google.com/stable-diffusion-model-repository-asia/v1/production/selfie_multiclass_256x256.tflite
