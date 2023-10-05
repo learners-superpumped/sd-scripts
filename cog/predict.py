@@ -15,7 +15,7 @@ class Predictor(BasePredictor):
     def setup(self):
         """Load the model into memory to make running multiple predictions efficient"""
         self.device = "cuda"
-        checkpoint_path = "models/leosam.safetensors" 
+        checkpoint_path = "models/sd_xl_base_1.0.safetensors" 
         self.img2img_pipe = StableDiffusionXLImg2ImgPipeline.from_single_file(
             checkpoint_path,
             local_file_only=True,
@@ -128,42 +128,8 @@ class Predictor(BasePredictor):
                 "height": height,
             }
 
-        if seed is None:
-            seed = int.from_bytes(os.urandom(2), "big")
-
-
-        if width * height > 786432:
-            raise ValueError(
-                "Maximum size is 1024x768 or 768x1024 pixels, because of memory limits. Please select a lower width or height."
-            )
-
-        pipe.scheduler = make_scheduler()
-        locon_start = time()
-        locon_path = self.get_locon(locon_url)
-        pipe.load_lora_weights(locon_path)
-        print(f"LoCon loading time: {(time() - locon_start):.2f}")
-
-        if disable_safety_check:
-            pipe.safety_checker = None
-        else:
-            pipe.safety_checker = self.safety_checker
-
-        result_count = 0
-    
-        generator = torch.Generator("cuda").manual_seed(seed)
-        output = pipe(
-            image=image,
-            prompt=prompt,
-            prompt_2=prompt_2,
-            negative_prompt=negative_prompt,
-            negative_prompt_2=negative_prompt_2,
-            guidance_scale=guidance_scale,
-            num_images_per_prompt=num_outputs,
-            num_inference_steps=num_inference_steps,
-            strength=prompt_strength,
-            generator=generator,
-            **extra_kwargs,
-        )
+        
+       
 
         for i, img in enumerate(output.images):
             output_path = f"/tmp/seed-{seed}-{i}.png"

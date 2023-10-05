@@ -1,6 +1,12 @@
 all: pose
 CONTAINER_NAME = sdxl-locon-inference
 
+env:
+	conda create -n cog-sdxl-infer python=3.9
+
+setup:
+	pip install -r requirements.txt
+
 leosam:
 	mkdir -p models
 	cd models && wget https://civitai.com/api/download/models/150851 -O leosam.safetensors
@@ -21,8 +27,9 @@ build:
 push:
 	sudo cog push r8.im/learners-superpumped/user-test-arcface-loss
 
-magictouch:
-	cd models && wget https://storage.cloud.google.com/stable-diffusion-model-repository-asia/v1/production/magic_touch.tflite
-
-selfie_multiclass:
-	cd models && wget https://storage.cloud.google.com/stable-diffusion-model-repository-asia/v1/production/selfie_multiclass_256x256.tflite
+download-realesrgan:
+	python utils/download_base_model.py --stage production --model_name RealESRGAN_x4.pth --base_model_path ./models	
+download-magic_touch:
+	python utils/download_base_model.py --stage production --model_name magic_touch.tflite --base_model_path ./models	
+download-selfie_multiclass:
+	python utils/download_base_model.py --stage production --model_name selfie_multiclass_256x256.tflite --base_model_path ./models	
