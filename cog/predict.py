@@ -9,6 +9,8 @@ from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipelin
 from diffusers.utils import load_image
 from diffusers import EulerDiscreteScheduler
 
+from services.locon_inference_service import LoconInferenceService
+from schema.inference_request import IMG2IMGInferenceDTO, DDSDInferenceDTO, CoupleInferenceDTO, TXT2IMGInferenceDTO
 
 
 class Predictor(BasePredictor):
@@ -50,24 +52,13 @@ class Predictor(BasePredictor):
         image: Path = Input(
             description="Optional Image to use for img2img guidance", default=None
         ),
-        mask: Path = Input(
-            description="Optional Mask to use for legacy inpainting", default=None
-        ),
         prompt: str = Input(
             description="Input prompt",
             default="leogirl, hoge person, realistic Documentary photography, detailed face cleavage, realistic, photorealistic",
         ),
-        prompt_2: str = Input(
-            description="Input prompt",
-            default="photo of cjw person",
-        ),
         negative_prompt: str = Input(
             description="Specify things to not see in the output",
             default="(worst quality, low quality, cgi, bad eye, worst eye, illustration, cartoon), deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, open mouth",
-        ),
-        negative_prompt_2: str = Input(
-            description="Specify things to not see in the output",
-            default=None,
         ),
         width: int = Input(
             description="Width of output image. Maximum size is 1024x768 or 768x1024 because of memory limits",
@@ -99,7 +90,10 @@ class Predictor(BasePredictor):
             description="Disable safety check. Use at your own risk!", default=True
         ),
         seed: int = Input(
-            description="Random seed. Leave blank to randomize the seed", default=None
+            description="Random seed. Leave blank to randomize the seed", default=1234
+        ),
+        type: str = Input(
+            description="Type of inference", default="ddsd"
         ),
     ) -> Iterator[Path]:
         """Run a single prediction on the model"""
@@ -110,11 +104,6 @@ class Predictor(BasePredictor):
         # os.system("df -h")
         # os.system("free -h")
         # print(self.weights_download_cache.cache_info())
-
-        if image:
-            image = load_image(str(image))
-        if mask:
-            mask = load_image(str(mask))
 
         if image:
             print("Using img2img pipeline")
@@ -128,10 +117,41 @@ class Predictor(BasePredictor):
                 "height": height,
             }
 
-        
-       
+        locon_path = self.get_locon(locon_url)
 
-        for i, img in enumerate(output.images):
+        dto_input = {
+            "image_path": str(image),
+            "lora_path": locon_path,
+            "params": [
+                {
+                    "guidance_scale": guidance_scale,
+                    "prompt_strength": prompt_strength,
+                    "num_inference_steps": num_inference_steps,
+                }
+            ],
+            "disable_safety_check": disable_safety_check,
+            "num_outputs": num_outputs,
+            "prompt": prompt,
+            "negative_prompt": negative_prompt,
+            "scheduler": "KarrasDPM",
+            "width": 1024,
+            "height": 1024,
+            "type": "ddsd",
+            "seed": seed
+        }
+        if type == "ddsd":
+            inference_dto = DDSDInferenceDTO(**dto_input)
+        elif type == "couple":
+            inference_dto = CoupleInferenceDTO(**dto_input)
+        elif type == "txt2img":
+            inference_dto = TXT2IMGInferenceDTO(**dto_input)
+        else:
+            inference_dto = IMG2IMGInferenceDTO(**dto_input)
+        locon_inference_service = LoconInferenceService()
+        generated_images = locon_inference_service.predict(inference_dto)
+
+        result_count = 0
+        for i, img in enumerate(generated_images):
             output_path = f"/tmp/seed-{seed}-{i}.png"
             img.save(output_path)
             yield Path(output_path)
