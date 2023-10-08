@@ -1,15 +1,14 @@
 accelerate launch --num_cpu_threads_per_process 1 sdxl_train_network.py \
-    --pretrained_model_name_or_path=models/leosam.safetensors \
+    --pretrained_model_name_or_path=models/sd_xl_base_1.0.safetensors \
     --dataset_config=_typos.toml \
-    --output_dir=output/locon-leosam-cropped_face_1024_1024-8-4e-4-reg-2000\
+    --output_dir=output/text-encoder-kr2 \
     --output_name=test \
-    --max_train_steps=2000 \
+    --max_train_steps=1000 \
     --save_model_as=safetensors \
     --prior_loss_weight=1.0 \
     --learning_rate=4e-4 \
-    --lr_scheduler="linear" \
-    --optimizer_type="Adafactor" \
-    --optimizer_args scale_parameter=False relative_step=False warmup_init=False \
+    --lr_scheduler="cosine" \
+    --optimizer_type="AdamW8bit" \
     --xformers \
     --mixed_precision="fp16" \
     --cache_latents \
