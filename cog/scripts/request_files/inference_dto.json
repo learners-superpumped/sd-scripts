@@ -1,0 +1,23 @@
+{
+    "image_path": "runs/847220355a1ae102a534adc12d9aff5c.jpg",
+    "lora_path": "runs/test_sdxl.safetensors",
+    "weights": "",
+    "params": [
+        {
+            "guidance_scale": 7.5,
+            "prompt_strength": 0.65,
+            "num_inference_steps": 30
+        }
+    ],
+    "disable_safety_check": true,
+    "num_outputs": 2,
+    "prompt": "<hoge> person, photorealistic",
+    "negative_prompt": "(distorted eye:1.1), NSFW, cartoon, 3d, tooth, teeth, (disfigured), (bad art), (deformed), (poorly drawn), (extra limbs), asymmetric eyes, (close up), strange colours, blurry, boring, sketch, lackluster, face portrait, self-portrait, signature, letters, watermark, grayscale, low quality, worst quality, distorted hands, mutated hands, mutated finger, crooked nose, uneven teeth, face tattoo, gloomy, depressed, dots, dirty, asymmetric lips, grains, fused hands, fused heads, fused characters. foreground characters, airbrushed, glossy, photoshop",
+    "scheduler": "KarrasDPM",
+    "width": 1024,
+    "height": 1024,
+    "type": "ddsd",
+    "ddsd": true,
+    "repaint": false,
+    "seed": 124422343
+}
