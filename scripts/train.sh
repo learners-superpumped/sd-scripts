@@ -20,6 +20,6 @@ accelerate launch --num_cpu_threads_per_process 1 sdxl_train_network.py \
     --sample_sampler=euler_a \
     --sample_prompts="sample_prompt.json"\
     --no_half_vae \
-    --network_dim=8 \
-    --network_args "conv_dim=8" "conv_alpha=1.0" "algo=locon"\
+    --network_dim=4 \
+    --network_args "conv_dim=4" "conv_alpha=1.0" "algo=locon"\
     --network_module=lycoris.kohya
