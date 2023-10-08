@@ -35,4 +35,4 @@ serve:
 	cog run -p 5000 python -m cog.server.http
 
 push:
-	sudo cog push r8.im/learners-superpumped/user-test-arcface-loss
+	sudo cog push r8.im/learners-superpumped/sdxl_locon
