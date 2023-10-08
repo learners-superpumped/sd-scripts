@@ -3,12 +3,19 @@ build:
   cuda: "11.8"
   python_version: "3.10"
   python_packages:
-    - diffusers[torch]==0.21.2
+    - diffusers[torch]==0.21.4
     - torch==2.0.1
     - safetensors==0.3.2
     - accelerate==0.23.0
     - transformers==4.30.2
     - omegaconf==2.3.0
+    - omegaconf
+    - image
+    - compel==2.0.1
+    - scipy==1.9.3
+    - mediapipe==0.10.3
+    - git+https://github.com/sberbank-ai/Real-ESRGAN.git
+    - scikit-image==0.21.0
   system_packages:
     - ffmpeg
     - libsm6 
