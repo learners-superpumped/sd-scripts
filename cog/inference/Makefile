@@ -14,6 +14,10 @@ leosam:
 sdxl-1.0:
 	mkdir -p models
 	cd models && wget https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+
+rsp:
+	mkdir -p models
+	cd models && wget https://civitai.com/api/download/models/154593 -O rsp.safe
 	
 serve:
 	cog run -p 5000 python -m cog.server.http

@@ -26,7 +26,7 @@ class Settings:
     BASE_MODEL_BUCKET: str = os.environ.get("BASE_MODEL_BUCKET", "stable-diffusion-model-repository-asia")
     BASE_MODEL_VERSION: str = os.environ.get("BASE_MODEL_VERSION", "v1")
     BASE_MODEL_STAGE: str = os.environ.get("BASE_MODEL_STAGE", "production")
-    BASE_MODEL_NAME: str = os.environ.get("BASE_MODEL_NAME", "sd_xl_base_1.0.safetensors")
+    BASE_MODEL_NAME: str = os.environ.get("BASE_MODEL_NAME", "rsp.safetensors") # before : sd_xl_base_1.0.safetensors
     BASE_MODEL_PATH: str = os.environ.get("BASE_MODEL_PATH", "./models")
     MODEL_CACHE: str = "diffusers-cache"
     DEVICE: str = os.environ.get("DEVICE", "cuda")

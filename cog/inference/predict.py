@@ -17,7 +17,7 @@ class Predictor(BasePredictor):
     def setup(self):
         """Load the model into memory to make running multiple predictions efficient"""
         self.device = "cuda"
-        checkpoint_path = "models/sd_xl_base_1.0.safetensors" 
+        checkpoint_path = "models/rsp.safetensors" 
         self.img2img_pipe = StableDiffusionXLImg2ImgPipeline.from_single_file(
             checkpoint_path,
             local_file_only=True,

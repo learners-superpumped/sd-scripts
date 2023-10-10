@@ -286,7 +286,6 @@ class LoconInferenceService(InferenceService):
             logger.debug(f"bbox: {bbox}")
             self.inpainting_pipe.load_lora_weights(
                 lora_path,
-                unet_config=None,
                 use_safetensors=True,
             )
             logger.debug("Loaded Locon Weights")
@@ -302,7 +301,6 @@ class LoconInferenceService(InferenceService):
     def _i2i(self, locon_inference_dto: IMG2IMGInferenceDTO) -> List[Image.Image]:
         self.img2img_pipe.load_lora_weights(
             locon_inference_dto.lora_path,
-            unet_config=None,
             use_safetensors=True,
         )
 
@@ -334,8 +332,8 @@ class LoconInferenceService(InferenceService):
             generator.manual_seed(locon_inference_dto.seed + i)
 
             generated_image = self.img2img_pipe(
-                prompt_embeds=prompt_embeds,
-                negative_prompt_embeds=negative_prompt_embeds,
+                prompt=[locon_inference_dto.prompt] * locon_inference_dto.num_outputs,
+                negative_prompt=[locon_inference_dto.negative_prompt] * locon_inference_dto.num_outputs,
                 num_inference_steps=param.num_inference_steps,
                 guidance_scale=param.guidance_scale,
                 generator=generator,
@@ -350,7 +348,6 @@ class LoconInferenceService(InferenceService):
     def _t2i(self, locon_inference_dto: TXT2IMGInferenceDTO):
         self.txt2img_pipe.load_lora_weights(
             locon_inference_dto.lora_path,
-            unet_config=None,
             use_safetensors=True,
         )
 
@@ -379,8 +376,8 @@ class LoconInferenceService(InferenceService):
             generator.manual_seed(locon_inference_dto.seed + i)
 
             generated_image = self.txt2img_pipe(
-                prompt_embeds=prompt_embeds,
-                negative_prompt_embeds=negative_prompt_embeds,
+                prompt=[locon_inference_dto.prompt] * locon_inference_dto.num_outputs,
+                negative_prompt=[locon_inference_dto.negative_prompt] * locon_inference_dto.num_outputs,
                 num_inference_steps=param.num_inference_steps,
                 guidance_scale=param.guidance_scale,
                 generator=generator,
