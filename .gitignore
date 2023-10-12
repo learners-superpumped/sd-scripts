@@ -21,6 +21,6 @@ dataset/
 inference_results
 image/
 models/
-imagecreds.son
+imagecreds.json
 test_input.json
 env.json
