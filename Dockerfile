@@ -46,3 +46,4 @@ RUN apt update && apt install -y libgl1-mesa-glx
 WORKDIR /src
 EXPOSE 5000
 COPY . /src
+CMD [ "python", "-u", "./handler.py" ]

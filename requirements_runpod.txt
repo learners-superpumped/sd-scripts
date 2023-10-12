@@ -31,3 +31,4 @@ lycoris_lora
 open_clip_torch==2.20.0
 
 scikit-learn
+runpod

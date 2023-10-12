@@ -1,0 +1,12 @@
+{
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "client_email": "learneroid-dev-image-manager@learneroid.iam.gserviceaccount.com",
+    "client_id": "111663216765804184387",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/learneroid-dev-image-manager%40learneroid.iam.gserviceaccount.com",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC61eXwCWHw0XpA\nj+yzIf4eFDsnjJsZHG94X6uKW68V70lUSVTveHRjbrGIiHs6YVEZCtm4zbVzeWAL\nBzyskPnVJHxT8TqKacaNjEVdP55l3b5yKyDWa9st/eCk3H2LI8VnuYeddRYzuovc\n0Pv4YP7wOZ/zvDDcQzaVUzm3dlxZCnjWW6CLqMgzuEmKiuJIy/X7wGQ0KVmRa3b8\nYjN80A9+TdLZsmGctWzaRCoQtHYyemEhXeTqZJ4BIZV7+rtMHF5ysKXTKzmzVn22\n7z0Gw4T5lhmkOgyRdFgnjAGMZgt9xMAOzqAs39jBMaerEXOcA9trIyNTskH/IL9z\n2rkZpeAPAgMBAAECggEAQfs1K4qcuIe59V/+lxp7nFLHu0VYJsuYgDnFImUTlZr+\nWhJVuQZgkBbxAoc0gZ8JnV7sGewn1wJ3zR0+q7C9Ui0C7UAlTOljEe0GOBK2FUJ0\ntewOOjs32eutMHufqIo29lUalBxb/WO1bgOt4H8cuWiYWOLOnJLuDVkpamWV4mmI\nuEHmPv83H0ipaxvv8RIuCe7YyTFGmCdPiFoDaswtVXha0I3pFicGd4XPuTQS14ii\nKudcaiz1+5HAsBvjQtYV0z+nwRSRIRScrxG03zSx6/R/rkJVl3DgFWXRb/YlU7ou\ntCdbYdk9+vzIrAXU/1aGpkeDsQ71fikDqp/KBap1iQKBgQD9H/4y7G6uOuwowsDe\nWrE0W3HpWDDokFLlQIdNZf+5evvEjtupgQiwNdRpkpBmzKpwt/ODR2eYwAtDLvV5\nVPxRTt0XOe9kc7Dm20ABuXrtfLHnSrZDJSL4Y0oxL59ntp4yHiz26sj0w6ChNknL\nc6kk70Ob4CETfDS3XNSm4VP8JwKBgQC89SgXoTwlexTB6zU2QHOvZBeQwQOnb5te\nT0fEx/s+1rLXahsE2SXA2yQQkA/URS7I0wIvDI4tU+TLE6swmkra+vvshRw9mfkt\n8AQGhouaYliUE2Y4+aer2hICpdw1/92QZbX9o8t9co4gIA7+g5nxXnRruIk0yBpD\nQkiXDpCl2QKBgBbkWNH0LgJV09vP2S+C1jnc901aK3os60JOdq4aRmlY5QIexWDs\nCYQeKiquFZ8mbVeqWzyJLaZT3/Dgg1TIydT0o+wg0jSsfdgzBfPh+WsW9uPrDta9\nug7qs+AE5Y60plP0BK8EBs6UDqflyAC9YhO0C9JCD9u6RO48WAMLp9PLAoGBAIAJ\nvvkEEDV1iUM9lfkFA169fBpiL4+tWKI3JnJ48A5MfTLqexR179cWpwFyHMfBeUor\ncTdgUpb0Wfwhf8aXRlHL8Bj8uX4kb2xpTtD9KmuaaFsuKf5BbRRN2BZjPSx6DDBk\nO0V7T8/ZZ+Ts1DwyAIZFcq3rhU12qhUZPQben7VBAoGAVjasGIWsyDsn0zcTaOL+\n0bnJEswcR4xCrmpIbJ7r9XWsxc27CQ2gUeZKU5bY+VfyWa94B/jsDi33mrb7e1tc\nvlRnfeBrh3os0Q9zSV0lgL5inaQbONdp/oV7GmYfJ032iisdSw1QYEVQ9KRU/bAu\nFiG7gIGDG5nhYbJVSmT33Rs=\n-----END PRIVATE KEY-----\n",
+    "private_key_id": "fd24da1b6b421a41a39b2caf1eb81c3d7142e4d4",
+    "project_id": "learneroid",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "type": "service_account"
+}

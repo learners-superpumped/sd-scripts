@@ -11,8 +11,9 @@ from zipfile import ZipFile
 from argparse import Namespace
 import time
 import torch
+import json
+import runpod
 
-from cog import BaseModel, BasePredictor, Input, Path
 import sys
 import os
 from zipfile import ZipFile
@@ -25,8 +26,6 @@ from services.googlestorage import upload_file
 logger = logging.getLogger(__name__)
 
 
-class TrainingOutput(BaseModel):
-    weights: Path
 
 def run_cmd(command):
     try:
@@ -273,11 +272,12 @@ def handler(event):
 
     logger.warn(f"upload file path: {upload_lora_file_path}")
     upload_start = time.time()
+    lora_uri = ""
     lora_uri = upload_file(upload_lora_file_path, directory=user_id, content_type="text/plain", use_random=model_id == 'testmodel') # TODO: Async
 
     upload_time = time.time() - upload_start
     # Send Webhook
-    webhook_url = event["webhook"]
+    webhook_url = event["input"].get("webhook", "")
     payload = {
         "data": event,
         "input": event["input"],
@@ -294,9 +294,11 @@ def handler(event):
     
     return payload
     
-
+runpod.serverless.start({
+    "handler": handler
+})
 
 # if __name__=='__main__':
-#     p = Predictor()
-#     p.predict(instance_data="https://storage.googleapis.com/peekaboo-studio/userinputzip/b6ntuv40b6result.zip",
-#               class_data="https://storage.googleapis.com/snow_image/kor_latent/k-faces-large-flat.zip")
+#     with open("test_input.json", "r") as f:
+#         json_data = json.load(f)
+#     handler(json_data)
