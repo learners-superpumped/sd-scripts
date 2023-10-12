@@ -22,6 +22,7 @@ RUN --mount=type=cache,target=/var/cache/apt apt-get update -qq && apt-get insta
 	libreadline-dev \
 	libsqlite3-dev \
 	wget \
+	unzip \
 	curl \
 	llvm \
 	libncurses5-dev \

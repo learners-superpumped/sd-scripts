@@ -68,25 +68,26 @@ def download_dataset(instance_data, style_data, class_data):
     elif style_data is not None:
         extract_sty_file_name = style_data
 
-    
+    print(style_data)
     if style_data is not None and str(style_data).endswith('.zip'):
         after_extract_sty_file_name = str(extract_sty_file_name)[:-4]
-        with ZipFile(extract_sty_file_name, "r") as zip_ref:
-            for zip_info in zip_ref.infolist():
-                if zip_info.filename[-1] == "/" or zip_info.filename.startswith(
-                    "__MACOSX"
-                ):
-                    continue
-                # mt = mimetypes.guess_type(zip_info.filename)
-                # if mt and mt[0] and mt[0].startswith("image/"):
-                zip_info.filename = os.path.basename(zip_info.filename)
-                zip_ref.extract(zip_info, after_extract_sty_file_name)
-        os.remove(extract_sty_file_name)
+        os.system(f"unzip {extract_sty_file_name} -d {after_extract_sty_file_name} -o")
+        # with ZipFile(extract_sty_file_name, "r") as zip_ref:
+        #     for zip_info in zip_ref.infolist():
+        #         if zip_info.filename[-1] == "/" or zip_info.filename.startswith(
+        #             "__MACOSX"
+        #         ):
+        #             continue
+        #         # mt = mimetypes.guess_type(zip_info.filename)
+        #         # if mt and mt[0] and mt[0].startswith("image/"):
+        #         zip_info.filename = os.path.basename(zip_info.filename)
+        #         zip_ref.extract(zip_info, after_extract_sty_file_name)
+        # os.remove(extract_sty_file_name)
     
     else:
         after_extract_sty_file_name = extract_sty_file_name
 
-
+    print(class_data)
     if class_data is not None and str(class_data).startswith('http'):
         extract_reg_file_name = str(class_data).split("/")[-1]
         print(extract_reg_file_name)
@@ -98,21 +99,23 @@ def download_dataset(instance_data, style_data, class_data):
 
     if class_data is not None and str(class_data).endswith('.zip'):
         after_extract_reg_file_name = str(extract_reg_file_name)[:-4]
-        with ZipFile(extract_reg_file_name, "r") as zip_ref:
-            for zip_info in zip_ref.infolist():
-                if zip_info.filename[-1] == "/" or zip_info.filename.startswith(
-                    "__MACOSX"
-                ):
-                    continue
-                # mt = mimetypes.guess_type(zip_info.filename)
-                # if mt and mt[0] and mt[0].startswith("image/"):
-                zip_info.filename = os.path.basename(zip_info.filename)
-                zip_ref.extract(zip_info, after_extract_reg_file_name)
-        os.remove(extract_reg_file_name)
+        os.system(f"unzip {extract_reg_file_name} -d {after_extract_reg_file_name} -o")
+        # with ZipFile(extract_reg_file_name, "r") as zip_ref:
+        #     for zip_info in zip_ref.infolist():
+        #         if zip_info.filename[-1] == "/" or zip_info.filename.startswith(
+        #             "__MACOSX"
+        #         ):
+        #             continue
+        #         # mt = mimetypes.guess_type(zip_info.filename)
+        #         # if mt and mt[0] and mt[0].startswith("image/"):
+        #         zip_info.filename = os.path.basename(zip_info.filename)
+        #         zip_ref.extract(zip_info, after_extract_reg_file_name)
+        # os.remove(extract_reg_file_name)
     
     else:
         after_extract_reg_file_name = extract_reg_file_name
-
+    os.system("ls")
+    #os.system(f"rm -rf _MACOSX")
     return after_extract_file_name, after_extract_sty_file_name, after_extract_reg_file_name
 
 
@@ -187,6 +190,7 @@ def handler(event):
     # }
 
     # prepare model, dataset, config file.
+    os.system("ls")
     instance_data, style_data, class_data = download_dataset(instance_data, style_data, class_data)
     
     if str(ckpt_base) != "models/sd_xl_base_1.0.safetensors" and str(ckpt_base) != "models/leosam.safetensors":

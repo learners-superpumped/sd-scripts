@@ -3,7 +3,7 @@ inference_results
 
 dataset/
 output
-.zip
+
 .git
 cog/inference/models/
 env.json
