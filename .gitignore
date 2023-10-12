@@ -8,7 +8,8 @@ build
 wandb
 *.zip
 models/
-k-faces-large-flat
+k-faces-small-flat
+1024_inpaint_merged
 output/
 wget-log
 b6ntuv40b6result

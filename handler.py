@@ -69,7 +69,7 @@ def download_dataset(instance_data, style_data, class_data):
         extract_sty_file_name = style_data
 
     
-    if style_data is not None:
+    if style_data is not None and str(style_data).endswith('.zip'):
         after_extract_sty_file_name = str(extract_sty_file_name)[:-4]
         with ZipFile(extract_sty_file_name, "r") as zip_ref:
             for zip_info in zip_ref.infolist():
@@ -77,14 +77,14 @@ def download_dataset(instance_data, style_data, class_data):
                     "__MACOSX"
                 ):
                     continue
-                mt = mimetypes.guess_type(zip_info.filename)
-                if mt and mt[0] and mt[0].startswith("image/"):
-                    zip_info.filename = os.path.basename(zip_info.filename)
-                    zip_ref.extract(zip_info, after_extract_sty_file_name)
+                # mt = mimetypes.guess_type(zip_info.filename)
+                # if mt and mt[0] and mt[0].startswith("image/"):
+                zip_info.filename = os.path.basename(zip_info.filename)
+                zip_ref.extract(zip_info, after_extract_sty_file_name)
         os.remove(extract_sty_file_name)
     
     else:
-        after_extract_sty_file_name = None
+        after_extract_sty_file_name = extract_sty_file_name
 
 
     if class_data is not None and str(class_data).startswith('http'):
@@ -96,7 +96,7 @@ def download_dataset(instance_data, style_data, class_data):
         extract_reg_file_name = class_data
     after_extract_reg_file_name = str(extract_reg_file_name)[:-4]
 
-    if class_data is not None:
+    if class_data is not None and str(class_data).endswith('.zip'):
         after_extract_reg_file_name = str(extract_reg_file_name)[:-4]
         with ZipFile(extract_reg_file_name, "r") as zip_ref:
             for zip_info in zip_ref.infolist():
@@ -104,14 +104,14 @@ def download_dataset(instance_data, style_data, class_data):
                     "__MACOSX"
                 ):
                     continue
-                mt = mimetypes.guess_type(zip_info.filename)
-                if mt and mt[0] and mt[0].startswith("image/"):
-                    zip_info.filename = os.path.basename(zip_info.filename)
-                    zip_ref.extract(zip_info, after_extract_reg_file_name)
+                # mt = mimetypes.guess_type(zip_info.filename)
+                # if mt and mt[0] and mt[0].startswith("image/"):
+                zip_info.filename = os.path.basename(zip_info.filename)
+                zip_ref.extract(zip_info, after_extract_reg_file_name)
         os.remove(extract_reg_file_name)
     
     else:
-        after_extract_reg_file_name = None
+        after_extract_reg_file_name = extract_reg_file_name
 
     return after_extract_file_name, after_extract_sty_file_name, after_extract_reg_file_name
 
