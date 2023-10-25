@@ -71,7 +71,7 @@ def download_dataset(instance_data, style_data, class_data):
     print(style_data)
     if style_data is not None and str(style_data).endswith('.zip'):
         after_extract_sty_file_name = str(extract_sty_file_name)[:-4]
-        os.system(f"unzip {extract_sty_file_name} -d {after_extract_sty_file_name} -o")
+        os.system(f"unzip -j {extract_sty_file_name} -d {after_extract_sty_file_name}")
         # with ZipFile(extract_sty_file_name, "r") as zip_ref:
         #     for zip_info in zip_ref.infolist():
         #         if zip_info.filename[-1] == "/" or zip_info.filename.startswith(
@@ -87,10 +87,10 @@ def download_dataset(instance_data, style_data, class_data):
     else:
         after_extract_sty_file_name = extract_sty_file_name
 
-    print(class_data)
+    print("class_data", class_data)
     if class_data is not None and str(class_data).startswith('http'):
         extract_reg_file_name = str(class_data).split("/")[-1]
-        print(extract_reg_file_name)
+        print("extract_reg_file_name", extract_reg_file_name)
         if not os.path.isfile(extract_reg_file_name):
             os.system(f"wget {str(class_data)}")
     elif class_data is not None:
@@ -99,7 +99,8 @@ def download_dataset(instance_data, style_data, class_data):
 
     if class_data is not None and str(class_data).endswith('.zip'):
         after_extract_reg_file_name = str(extract_reg_file_name)[:-4]
-        os.system(f"unzip {extract_reg_file_name} -d {after_extract_reg_file_name} -o")
+        print("after_extract_reg_file_name", after_extract_reg_file_name)
+        os.system(f"unzip -j {extract_reg_file_name} -d {after_extract_reg_file_name}")
         # with ZipFile(extract_reg_file_name, "r") as zip_ref:
         #     for zip_info in zip_ref.infolist():
         #         if zip_info.filename[-1] == "/" or zip_info.filename.startswith(
